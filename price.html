@@ -104,7 +104,7 @@
 @media (min-width:960px){.gp-price .gp-wrap{padding-bottom:0}}
 
 @media (max-width:959px){
-  .gp-price .gp-wrap{padding:40px 24px 56px}
+  .gp-price .gp-wrap{padding:40px 24px 48px}
   .gp-price .gp-block{padding:26px 24px;margin:44px 0 0}
   .gp-price .gp-block:first-of-type{margin-top:32px}
   .gp-price .gp-block__title{font-size:30px}
@@ -118,12 +118,9 @@
   .gp-price .gp-item__price,.gp-price .gp-sub__price{font-size:17px}
   .gp-price .gp-item__desc,.gp-price .gp-sub__time{font-size:14px}
   .gp-price .gp-deco{display:none}
-  /* запас прокрутки: минимум, при котором последняя секция доезжает до верха.
-     Нужная доля растёт с высотой экрана (46vh при 844, 55vh при 1024),
-     поэтому не фикс-доля, а «высота экрана минус то, что и так лежит ниже секции».
-     40vh — нижняя граница для коротких экранов. */
-  .gp-price .gp-tail{height:max(40vh, calc(100vh - 420px))}
-  .gp-price .gp-outro{display:block;padding-top:40px}
+  /* одна колонка — последняя секция и так в конце потока, запас прокрутки не нужен */
+  .gp-price .gp-tail{display:none}
+  .gp-price .gp-outro{display:block;padding-top:48px}
   .gp-price .gp-outro__slogan{font-size:32px;font-weight:700;line-height:1.15;color:var(--pine)}
   .gp-price .gp-outro__support{padding-top:12px;font-size:16px;font-weight:400;line-height:1.4;color:var(--graphite)}
 }
