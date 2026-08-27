@@ -29,12 +29,10 @@
 .gp-price .gp-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 64px;align-items:stretch}
 .gp-price .gp-stack{min-width:0;position:relative;display:flex;flex-direction:column}
 .gp-price .gp-span{grid-column:1 / -1}
-/* третий разворот: цветок утекает за низ блока и там же обрезается — без пустого поля под ним.
-   overflow-x:visible + overflow-y:clip режет ТОЛЬКО по вертикали, бока цветов не трогает */
-.gp-price .gp-grid--tail{padding-bottom:120px;overflow-x:visible;overflow-y:clip}
 
-.gp-price .gp-section{padding-top:40px;scroll-margin-top:24px;position:relative;z-index:1}
-.gp-price .gp-section__title{font-size:28px;font-weight:700;line-height:1.2;color:var(--pine);padding-bottom:8px}
+.gp-price .gp-section{padding-top:40px;scroll-margin-top:40px;position:relative;z-index:1}
+.gp-price .gp-section__title{font-size:28px;font-weight:700;line-height:1.2;color:var(--pine);padding-bottom:8px;
+  scroll-margin-top:40px}
 .gp-price .gp-section--framed{margin-top:40px;padding:28px;border:1px solid var(--olive);border-radius:16px}
 
 .gp-price .gp-cols{display:grid;grid-template-columns:1fr 1fr;gap:0 64px}
@@ -100,6 +98,9 @@
 
 /* слоган на мобильном — простой строкой, без декора */
 .gp-price .gp-outro{display:none;position:relative;z-index:1}
+/* запас прокрутки: любая секция может доехать до верха окна.
+   Крем задан явно, чтобы под последней секцией не просвечивал белый фон страницы */
+.gp-price .gp-tail{height:100vh;background:var(--cream)}
 @media (min-width:960px){.gp-price .gp-wrap{padding-bottom:0}}
 
 @media (max-width:959px){
@@ -117,7 +118,6 @@
   .gp-price .gp-item__price,.gp-price .gp-sub__price{font-size:17px}
   .gp-price .gp-item__desc,.gp-price .gp-sub__time{font-size:14px}
   .gp-price .gp-deco{display:none}
-  .gp-price .gp-grid--tail{padding-bottom:0}
   .gp-price .gp-outro{display:block;padding-top:40px}
   .gp-price .gp-outro__slogan{font-size:32px;font-weight:700;line-height:1.15;color:var(--pine)}
   .gp-price .gp-outro__support{padding-top:12px;font-size:16px;font-weight:400;line-height:1.4;color:var(--graphite)}
@@ -509,7 +509,7 @@
 <h2 class="gp-block__title">БРОВИ · УКЛАДКИ · ДЛЯ МУЖЧИН И ДЕТЕЙ</h2>
 <p class="gp-block__sub">образ целиком · брови и ресницы · укладки и макияж · услуги для мужчин и детей</p>
 </div>
-<div class="gp-grid gp-grid--tail">
+<div class="gp-grid">
 <div class="gp-stack">
 <section class="gp-section" id="gp-s11">
 <h3 class="gp-section__title">БРОВИ И РЕСНИЦЫ</h3>
@@ -691,5 +691,6 @@
 <p class="gp-outro__slogan">Время, отданное себе</p>
 <p class="gp-outro__support">Отдых до кончиков пальцев</p>
 </div>
+<div class="gp-tail" aria-hidden="true"></div>
 </div>
 </div>
