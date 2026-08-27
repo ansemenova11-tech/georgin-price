@@ -57,6 +57,20 @@
 /* ---------- декор ---------- */
 .gp-price .gp-deco{position:relative;flex:1 1 auto;min-height:0;z-index:0;
   pointer-events:none;-webkit-user-select:none;user-select:none}
+/* декор не должен перехватывать клики/тапы: наследования мало — внешний CSS (Tilda)
+   может переопределить pointer-events у img/p/span, поэтому задаём явно каждому */
+.gp-price .gp-deco,
+.gp-price .gp-deco *,
+.gp-price .gp-deco__flower,
+.gp-price .gp-deco__rule,
+.gp-price .gp-deco__stamp,
+.gp-price .gp-deco__caption,
+.gp-price .gp-deco__eyebrow,
+.gp-price .gp-deco__claim,
+.gp-price .gp-deco__lockup,
+.gp-price .gp-deco__slogan,
+.gp-price .gp-deco__lockup-rule,
+.gp-price .gp-deco__support{pointer-events:none}
 .gp-price .gp-deco__flower{position:absolute;display:block;max-width:none}
 
 /* зона 1 — правая колонка «Ногтевого сервиса» */
@@ -105,7 +119,7 @@
   .gp-price .gp-deco{display:none}
   .gp-price .gp-grid--tail{padding-bottom:0}
   .gp-price .gp-outro{display:block;padding-top:40px}
-  .gp-price .gp-outro__slogan{font-size:32px;font-weight:700;line-height:1.1;color:var(--pine)}
+  .gp-price .gp-outro__slogan{font-size:32px;font-weight:700;line-height:1.15;color:var(--pine)}
   .gp-price .gp-outro__support{padding-top:12px;font-size:16px;font-weight:400;line-height:1.4;color:var(--graphite)}
 }
 </style>
