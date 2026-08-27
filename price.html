@@ -118,6 +118,11 @@
   .gp-price .gp-item__price,.gp-price .gp-sub__price{font-size:17px}
   .gp-price .gp-item__desc,.gp-price .gp-sub__time{font-size:14px}
   .gp-price .gp-deco{display:none}
+  /* запас прокрутки: минимум, при котором последняя секция доезжает до верха.
+     Нужная доля растёт с высотой экрана (46vh при 844, 55vh при 1024),
+     поэтому не фикс-доля, а «высота экрана минус то, что и так лежит ниже секции».
+     40vh — нижняя граница для коротких экранов. */
+  .gp-price .gp-tail{height:max(40vh, calc(100vh - 420px))}
   .gp-price .gp-outro{display:block;padding-top:40px}
   .gp-price .gp-outro__slogan{font-size:32px;font-weight:700;line-height:1.15;color:var(--pine)}
   .gp-price .gp-outro__support{padding-top:12px;font-size:16px;font-weight:400;line-height:1.4;color:var(--graphite)}
@@ -687,10 +692,10 @@
 </div>
 </div>
 
+<div class="gp-tail" aria-hidden="true"></div>
 <div class="gp-outro">
 <p class="gp-outro__slogan">Время, отданное себе</p>
 <p class="gp-outro__support">Отдых до кончиков пальцев</p>
 </div>
-<div class="gp-tail" aria-hidden="true"></div>
 </div>
 </div>
