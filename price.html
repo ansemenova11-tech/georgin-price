@@ -4,33 +4,42 @@
 @font-face{font-family:'CoFoSans';src:url('https://static.tildacdn.ink/tild3934-6639-4437-b165-353364336663/CoFoSansMedium.woff') format('woff');font-weight:500;font-style:normal}
 @font-face{font-family:'CoFoSans';src:url('https://static.tildacdn.ink/tild6536-6561-4161-b331-653563303039/CoFoSansBold.woff') format('woff');font-weight:700;font-style:normal}
 
-.gp-price{--cream:#F2F0EC;--pine:#1F3D31;--graphite:#343B36;--olive:#C8C08E;--dark:#14231C;--champagne:#D9C89E;
+.gp-price{--cream:#F2F0EC;--pine:#1F3D31;--graphite:#343B36;--olive:#C8C08E;--dark:#14231C;--champagne:#D9C89E;--edge:max(24px, calc(50vw - 600px));
   background:var(--cream);font-family:'CoFoSans', sans-serif;color:var(--pine);
-  -webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+  -webkit-font-smoothing:antialiased;scroll-behavior:smooth;
+  overflow-x:hidden;overflow-x:clip}
 .gp-price *,.gp-price *::before,.gp-price *::after{box-sizing:border-box}
 .gp-price h2,.gp-price h3,.gp-price p,.gp-price nav,.gp-price section,.gp-price div,.gp-price span,.gp-price a{
   margin:0;padding:0;border:0;background:none;font:inherit;color:inherit;letter-spacing:normal;text-transform:none}
 
 .gp-price .gp-wrap{max-width:1248px;margin:0 auto;padding:56px 24px 72px}
 
-.gp-price .gp-toc{display:flex;flex-wrap:wrap;gap:8px}
+.gp-price .gp-toc{display:flex;flex-wrap:wrap;gap:8px;position:relative;z-index:1}
 .gp-price .gp-toc__chip{display:inline-block;padding:9px 15px;border:1px solid rgba(200,192,142,.6);
   border-radius:999px;font-size:14px;font-weight:500;line-height:1.2;color:var(--pine);text-decoration:none;
   transition:background-color .18s ease,color .18s ease,border-color .18s ease}
 .gp-price .gp-toc__chip:hover,.gp-price .gp-toc__chip:focus-visible{background:var(--pine);border-color:var(--pine);color:var(--cream)}
 
-.gp-price .gp-block{background:var(--dark);color:var(--champagne);border-radius:4px;padding:36px 40px;margin:64px 0 0}
+.gp-price .gp-block{background:var(--dark);color:var(--champagne);border-radius:4px;padding:36px 40px;margin:64px 0 0;
+  position:relative;z-index:1}
 .gp-price .gp-block:first-of-type{margin-top:48px}
-.gp-price .gp-block--anchor{scroll-margin-top:24px}
 .gp-price .gp-block__title{font-size:44px;font-weight:700;line-height:1.2;color:var(--champagne)}
 .gp-price .gp-block__sub{margin-top:12px;font-size:15px;font-weight:400;line-height:1.45;color:var(--champagne);opacity:.78}
 
-.gp-price .gp-section{padding-top:40px;scroll-margin-top:24px}
-.gp-price .gp-section--flush{padding-top:24px}
+.gp-price .gp-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 64px;align-items:stretch}
+.gp-price .gp-stack{min-width:0;position:relative;display:flex;flex-direction:column}
+.gp-price .gp-span{grid-column:1 / -1}
+/* третий разворот: цветок утекает за низ блока и там же обрезается — без пустого поля под ним.
+   overflow-x:visible + overflow-y:clip режет ТОЛЬКО по вертикали, бока цветов не трогает */
+.gp-price .gp-grid--tail{padding-bottom:120px;overflow-x:visible;overflow-y:clip}
+
+.gp-price .gp-section{padding-top:40px;scroll-margin-top:24px;position:relative;z-index:1}
 .gp-price .gp-section__title{font-size:28px;font-weight:700;line-height:1.2;color:var(--pine);padding-bottom:8px}
+.gp-price .gp-section--framed{margin-top:40px;padding:28px;border:1px solid var(--olive);border-radius:16px}
 
 .gp-price .gp-cols{display:grid;grid-template-columns:1fr 1fr;gap:0 64px}
 .gp-price .gp-cols--one{grid-template-columns:1fr}
+.gp-price .gp-col{min-width:0}
 
 .gp-price .gp-item{padding:16px 0;border-bottom:1px solid rgba(200,192,142,.6)}
 .gp-price .gp-item__head{display:flex;align-items:baseline;justify-content:space-between;gap:24px}
@@ -44,8 +53,40 @@
 .gp-price .gp-sub__price{flex:0 0 auto;font-size:20px;font-weight:700;line-height:1.2;color:var(--pine);white-space:nowrap}
 
 .gp-price .gp-note{padding-top:16px;font-size:14px;font-weight:400;line-height:1.45;color:var(--graphite)}
-.gp-price .gp-footer{margin-top:56px;padding-top:24px;border-top:1px solid rgba(200,192,142,.6);
-  font-size:14px;font-weight:400;line-height:1.45;color:var(--graphite)}
+
+/* ---------- декор ---------- */
+.gp-price .gp-deco{position:relative;flex:1 1 auto;min-height:0;z-index:0;
+  pointer-events:none;-webkit-user-select:none;user-select:none}
+.gp-price .gp-deco__flower{position:absolute;display:block;max-width:none}
+
+/* зона 1 — правая колонка «Ногтевого сервиса» */
+.gp-price .gp-deco--z1{margin:40px 0 -32px}
+.gp-price .gp-deco__caption{position:absolute;left:0;top:8px}
+.gp-price .gp-deco__eyebrow{font-size:15px;font-weight:500;line-height:1.2;letter-spacing:4px;
+  text-transform:uppercase;color:var(--olive)}
+.gp-price .gp-deco__claim{margin-top:14px;font-size:40px;font-weight:500;line-height:1.1;color:var(--olive)}
+
+/* зона 2 — левая колонка «Подологии» */
+.gp-price .gp-deco--z2{margin:0 -32px -52px calc(-1 * var(--edge))}
+.gp-price .gp-deco__rule{position:absolute;left:calc(var(--edge) + 40px);top:50px;bottom:92px;
+  width:2px;background:var(--olive)}
+.gp-price .gp-deco__stamp{position:absolute;left:calc(var(--edge) + 58px);bottom:92px;
+  writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap;
+  font-size:22px;font-weight:500;line-height:1;letter-spacing:7px;color:var(--olive)}
+.gp-price .gp-deco__flower--z2{width:540px;height:540px;left:calc(var(--edge) + 120px);top:120px}
+
+/* зона 3 — правая колонка третьего разворота */
+.gp-price .gp-deco--z3{margin:0 calc(-1 * var(--edge)) -60px -32px}
+.gp-price .gp-deco__flower--z3small{width:300px;height:300px;right:calc(var(--edge) - 70px);top:40px;z-index:0}
+.gp-price .gp-deco__flower--z3big{width:1500px;height:1500px;left:-28px;top:300px;z-index:0}
+.gp-price .gp-deco__lockup{position:absolute;left:32px;top:170px;z-index:1}
+.gp-price .gp-deco__slogan{font-size:56px;font-weight:500;line-height:1.1;color:var(--pine)}
+.gp-price .gp-deco__lockup-rule{display:block;width:200px;height:3px;background:var(--olive);margin-top:14px}
+.gp-price .gp-deco__support{margin-top:24px;font-size:22px;font-weight:400;line-height:1.3;color:var(--graphite)}
+
+/* слоган на мобильном — простой строкой, без декора */
+.gp-price .gp-outro{display:none;position:relative;z-index:1}
+@media (min-width:960px){.gp-price .gp-wrap{padding-bottom:0}}
 
 @media (max-width:959px){
   .gp-price .gp-wrap{padding:40px 24px 56px}
@@ -53,13 +94,19 @@
   .gp-price .gp-block:first-of-type{margin-top:32px}
   .gp-price .gp-block__title{font-size:30px}
   .gp-price .gp-block__sub{font-size:14px}
+  .gp-price .gp-grid{grid-template-columns:1fr;gap:0}
   .gp-price .gp-section{padding-top:28px}
-  .gp-price .gp-section--flush{padding-top:20px}
   .gp-price .gp-section__title{font-size:22px}
+  .gp-price .gp-section--framed{margin-top:28px;padding:20px}
   .gp-price .gp-cols{grid-template-columns:1fr;gap:0}
   .gp-price .gp-item__name,.gp-price .gp-sub__name{font-size:17px}
   .gp-price .gp-item__price,.gp-price .gp-sub__price{font-size:17px}
   .gp-price .gp-item__desc,.gp-price .gp-sub__time{font-size:14px}
+  .gp-price .gp-deco{display:none}
+  .gp-price .gp-grid--tail{padding-bottom:0}
+  .gp-price .gp-outro{display:block;padding-top:40px}
+  .gp-price .gp-outro__slogan{font-size:32px;font-weight:700;line-height:1.1;color:var(--pine)}
+  .gp-price .gp-outro__support{padding-top:12px;font-size:16px;font-weight:400;line-height:1.4;color:var(--graphite)}
 }
 </style>
 
@@ -73,22 +120,23 @@
 <a class="gp-toc__chip" href="#gp-s5">УХОД</a>
 <a class="gp-toc__chip" href="#gp-s6">КОМБО И СЕТЫ</a>
 <a class="gp-toc__chip" href="#gp-s7">НАРАЩИВАНИЕ</a>
-<a class="gp-toc__chip" href="#gp-s8">БРОВИ И РЕСНИЦЫ</a>
-<a class="gp-toc__chip" href="#gp-s9">СЕТЫ · БРОВИ И РЕСНИЦЫ</a>
-<a class="gp-toc__chip" href="#gp-s10">УСЛУГИ ДЛЯ МУЖЧИН</a>
-<a class="gp-toc__chip" href="#gp-s11">УСЛУГИ ДЛЯ ДЕТЕЙ</a>
-<a class="gp-toc__chip" href="#gp-s12">ЭСТЕТИЧЕСКАЯ ПОДОЛОГИЯ</a>
-<a class="gp-toc__chip" href="#gp-s13">УХОД ЗА СТОПАМИ</a>
-<a class="gp-toc__chip" href="#gp-s14">КОРРЕКЦИЯ ВРОСШЕГО НОГТЯ</a>
-<a class="gp-toc__chip" href="#gp-s15">ТЕРАПИЯ НОГТЕВОЙ ПЛАСТИНЫ</a>
-<a class="gp-toc__chip" href="#gp-s16">УКЛАДКИ</a>
-<a class="gp-toc__chip" href="#gp-s17">МАКИЯЖ</a>
+<a class="gp-toc__chip" href="#gp-s8">УХОД ЗА СТОПАМИ</a>
+<a class="gp-toc__chip" href="#gp-s9">КОРРЕКЦИЯ ВРОСШЕГО НОГТЯ</a>
+<a class="gp-toc__chip" href="#gp-s10">ТЕРАПИЯ НОГТЕВОЙ ПЛАСТИНЫ</a>
+<a class="gp-toc__chip" href="#gp-s11">БРОВИ И РЕСНИЦЫ</a>
+<a class="gp-toc__chip" href="#gp-s12">СЕТЫ · БРОВИ И РЕСНИЦЫ</a>
+<a class="gp-toc__chip" href="#gp-s13">УСЛУГИ ДЛЯ МУЖЧИН</a>
+<a class="gp-toc__chip" href="#gp-s14">УКЛАДКИ</a>
+<a class="gp-toc__chip" href="#gp-s15">МАКИЯЖ</a>
+<a class="gp-toc__chip" href="#gp-s16">УСЛУГИ ДЛЯ ДЕТЕЙ (ДО 12 ЛЕТ)</a>
 </nav>
 
 <div class="gp-block">
 <h2 class="gp-block__title">НОГТЕВОЙ СЕРВИС</h2>
 <p class="gp-block__sub">маникюр · педикюр · покрытие · наращивание</p>
 </div>
+<div class="gp-grid">
+<div class="gp-stack">
 <section class="gp-section" id="gp-s1">
 <h3 class="gp-section__title">МАНИКЮР</h3>
 <div class="gp-cols gp-cols--one">
@@ -110,7 +158,7 @@
 </section>
 <section class="gp-section" id="gp-s2">
 <h3 class="gp-section__title">ПОКРЫТИЕ</h3>
-<div class="gp-cols">
+<div class="gp-cols gp-cols--one">
 <div class="gp-col">
 <div class="gp-item">
 <div class="gp-item__head"><span class="gp-item__name">Бондирование</span><span class="gp-item__price">1 000 ₽</span></div>
@@ -136,8 +184,6 @@
 <div class="gp-item__head"><span class="gp-item__name">Покрытие гелем</span><span class="gp-item__price">1 800 ₽</span></div>
 <p class="gp-item__desc">30 мин</p>
 </div>
-</div>
-<div class="gp-col">
 <div class="gp-item">
 <div class="gp-item__head"><span class="gp-item__name">Японское глянцевание ногтей</span><span class="gp-item__price">1 200 ₽</span></div>
 <p class="gp-item__desc">30 мин</p>
@@ -165,6 +211,8 @@
 </div>
 </div>
 </section>
+</div>
+<div class="gp-stack">
 <section class="gp-section" id="gp-s3">
 <h3 class="gp-section__title">ПЕДИКЮР</h3>
 <div class="gp-cols gp-cols--one">
@@ -205,7 +253,7 @@
 </section>
 <section class="gp-section" id="gp-s5">
 <h3 class="gp-section__title">УХОД</h3>
-<div class="gp-cols">
+<div class="gp-cols gp-cols--one">
 <div class="gp-col">
 <div class="gp-item">
 <div class="gp-item__head"><span class="gp-item__name">Спа-уход</span><span class="gp-item__price">1 500 ₽</span></div>
@@ -219,8 +267,6 @@
 <div class="gp-item__head"><span class="gp-item__name">Парафинотерапия</span><span class="gp-item__price">600 ₽</span></div>
 <p class="gp-item__desc">20 мин</p>
 </div>
-</div>
-<div class="gp-col">
 <div class="gp-item">
 <div class="gp-item__head"><span class="gp-item__name">Массаж рук / ног</span><span class="gp-item__price">600 ₽</span></div>
 <p class="gp-item__desc">10 мин</p>
@@ -232,7 +278,14 @@
 </div>
 </div>
 </section>
-<section class="gp-section" id="gp-s6">
+<div class="gp-deco gp-deco--z1" aria-hidden="true">
+<div class="gp-deco__caption">
+<p class="gp-deco__eyebrow">НОГТЕВОЙ СЕРВИС</p>
+<p class="gp-deco__claim">Одна цена.<br>Любой мастер.</p>
+</div>
+</div>
+</div>
+<section class="gp-section gp-section--framed gp-span" id="gp-s6">
 <h3 class="gp-section__title">КОМБО И СЕТЫ</h3>
 <div class="gp-cols">
 <div class="gp-col">
@@ -272,9 +325,9 @@
 </div>
 </div>
 </div>
-<p class="gp-note">Маникюр в услуге «4 руки»: без покрытия +200 ₽ к стоимости сета · с покрытием +400 ₽ к стоимости сета.</p>
+<p class="gp-note">* Маникюр без покрытия в услуге «4 руки» — +200 ₽ к стоимости сета. Маникюр с покрытием — +400 ₽</p>
 </section>
-<section class="gp-section" id="gp-s7">
+<section class="gp-section gp-span" id="gp-s7">
 <h3 class="gp-section__title">НАРАЩИВАНИЕ</h3>
 <div class="gp-cols">
 <div class="gp-col">
@@ -323,13 +376,130 @@
 </div>
 </div>
 </section>
-<div class="gp-block">
-<h2 class="gp-block__title">БРОВИ И РЕСНИЦЫ</h2>
-<p class="gp-block__sub">оформление · окрашивание · ламинирование</p>
 </div>
+<div class="gp-block">
+<h2 class="gp-block__title">ПОДОЛОГИЯ</h2>
+<p class="gp-block__sub">уход за стопами · коррекция · терапия</p>
+</div>
+<div class="gp-grid">
+<div class="gp-stack">
+<section class="gp-section gp-section--flush">
+<div class="gp-cols gp-cols--one">
+<div class="gp-col">
+<div class="gp-item">
+<div class="gp-item__head"><span class="gp-item__name">Первичная консультация</span><span class="gp-item__price">1 000 ₽</span></div>
+<p class="gp-item__desc">30 мин</p>
+</div>
+</div>
+</div>
+</section>
 <section class="gp-section" id="gp-s8">
+<h3 class="gp-section__title">УХОД ЗА СТОПАМИ</h3>
+<div class="gp-cols gp-cols--one">
+<div class="gp-col">
+<div class="gp-item">
+<div class="gp-item__head"><span class="gp-item__name">Обработка трещин, гиперкератоза</span><span class="gp-item__price">2 000 ₽</span></div>
+<p class="gp-item__desc">натоптышей · 30 мин</p>
+</div>
+<div class="gp-item">
+<div class="gp-item__head"><span class="gp-item__name">Обработка глубоких трещин</span><span class="gp-item__price">1 000 ₽</span></div>
+<p class="gp-item__desc">цена за 1 см · 30 мин</p>
+</div>
+<div class="gp-item">
+<div class="gp-item__head"><span class="gp-item__name">Наложение окклюзивной повязки</span><span class="gp-item__price">1 000 ₽</span></div>
+<p class="gp-item__desc">цена за 1 стопу · 10 мин</p>
+</div>
+<div class="gp-item">
+<div class="gp-item__head"><span class="gp-item__name">Удаление стержневой мозоли</span><span class="gp-item__price">1 000 ₽</span></div>
+<p class="gp-item__desc">15 мин</p>
+</div>
+<div class="gp-item">
+<div class="gp-item__head"><span class="gp-item__name">Подологический педикюр</span><span class="gp-item__price">4 500 ₽</span></div>
+<p class="gp-item__desc">мужской / женский · 120 мин</p>
+</div>
+</div>
+</div>
+</section>
+<div class="gp-deco gp-deco--z2" aria-hidden="true">
+<span class="gp-deco__rule"></span>
+<span class="gp-deco__stamp">ГЕОРГИН · НОГТЕВАЯ СТУДИЯ</span>
+<img class="gp-deco__flower gp-deco__flower--z2" src="gp_flower_z2.png" alt="" width="540" height="540" aria-hidden="true" draggable="false">
+</div>
+</div>
+<div class="gp-stack">
+<section class="gp-section" id="gp-s9">
+<h3 class="gp-section__title">КОРРЕКЦИЯ ВРОСШЕГО НОГТЯ</h3>
+<div class="gp-cols gp-cols--one">
+<div class="gp-col">
+<div class="gp-item">
+<div class="gp-item__head"><span class="gp-item__name">Аппаратная обработка проблемного ногтя</span><span class="gp-item__price">1 500 ₽</span></div>
+<p class="gp-item__desc">1 палец · 30 мин</p>
+</div>
+<div class="gp-item">
+<div class="gp-item__head"><span class="gp-item__name">Установка корректирующей системы</span><span class="gp-item__price">6 000 ₽</span></div>
+<p class="gp-item__desc">скоба Фрезера, 3ТО · 45 мин</p>
+</div>
+<div class="gp-item">
+<div class="gp-item__head"><span class="gp-item__name">Установка корректирующей системы</span><span class="gp-item__price">4 500 ₽</span></div>
+<p class="gp-item__desc">титановая нить · 30 мин</p>
+</div>
+<div class="gp-item">
+<div class="gp-item__head"><span class="gp-item__name">Установка корректирующей системы</span><span class="gp-item__price">4 000 ₽</span></div>
+<p class="gp-item__desc">лайт · 30 мин</p>
+</div>
+<div class="gp-item">
+<div class="gp-item__head"><span class="gp-item__name">Коррекция системы</span><span class="gp-item__price">2 000 ₽</span></div>
+<p class="gp-item__desc">30 мин</p>
+</div>
+<div class="gp-item">
+<div class="gp-item__head"><span class="gp-item__name">Удаление системы</span><span class="gp-item__price">2 000 ₽</span></div>
+<p class="gp-item__desc">15 мин</p>
+</div>
+<div class="gp-item">
+<div class="gp-item__head"><span class="gp-item__name">Тампонада</span><span class="gp-item__price">1 000 ₽</span></div>
+<p class="gp-item__desc">за ноготь · 20 мин</p>
+</div>
+<div class="gp-item">
+<div class="gp-item__head"><span class="gp-item__name">Тейпирование</span><span class="gp-item__price">800 ₽</span></div>
+<p class="gp-item__desc">15 мин</p>
+</div>
+<div class="gp-item">
+<div class="gp-item__head"><span class="gp-item__name">Удаление вросшего ногтя</span><span class="gp-item__price">500 ₽</span></div>
+<p class="gp-item__desc">5 мин</p>
+</div>
+</div>
+</div>
+</section>
+<section class="gp-section" id="gp-s10">
+<h3 class="gp-section__title">ТЕРАПИЯ НОГТЕВОЙ ПЛАСТИНЫ</h3>
+<div class="gp-cols gp-cols--one">
+<div class="gp-col">
+<div class="gp-item">
+<div class="gp-item__head"><span class="gp-item__name">Оздоровление ногтевой пластины</span><span class="gp-item__price">1 500 ₽</span></div>
+<p class="gp-item__desc">1 палец · 30 мин</p>
+</div>
+<div class="gp-item">
+<div class="gp-item__head"><span class="gp-item__name">Протезирование ногтя</span><span class="gp-item__price">2 000 ₽</span></div>
+<p class="gp-item__desc">большой палец · 30 мин</p>
+</div>
+<div class="gp-item">
+<div class="gp-item__head"><span class="gp-item__name">Протезирование ногтя</span><span class="gp-item__price">1 000 ₽</span></div>
+<p class="gp-item__desc">любой палец, кроме большого · 30 мин</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+<div class="gp-block">
+<h2 class="gp-block__title">БРОВИ · УКЛАДКИ · ДЛЯ МУЖЧИН И ДЕТЕЙ</h2>
+<p class="gp-block__sub">образ целиком · брови и ресницы · укладки и макияж · услуги для мужчин и детей</p>
+</div>
+<div class="gp-grid gp-grid--tail">
+<div class="gp-stack">
+<section class="gp-section" id="gp-s11">
 <h3 class="gp-section__title">БРОВИ И РЕСНИЦЫ</h3>
-<div class="gp-cols">
+<div class="gp-cols gp-cols--one">
 <div class="gp-col">
 <div class="gp-item">
 <div class="gp-item__head"><span class="gp-item__name">Коррекция и придание формы бровям</span><span class="gp-item__price">1 200 ₽</span></div>
@@ -355,8 +525,6 @@
 <div class="gp-item__head"><span class="gp-item__name">Ламинирование ресниц</span><span class="gp-item__price">3 500 ₽</span></div>
 <p class="gp-item__desc">60 мин</p>
 </div>
-</div>
-<div class="gp-col">
 <div class="gp-item">
 <div class="gp-item__head"><span class="gp-item__name">Ламинирование бровей</span><span class="gp-item__price">3 000 ₽</span></div>
 <p class="gp-item__desc">45 мин</p>
@@ -384,7 +552,7 @@
 </div>
 </div>
 </section>
-<section class="gp-section" id="gp-s9">
+<section class="gp-section gp-section--framed" id="gp-s12">
 <h3 class="gp-section__title">СЕТЫ · БРОВИ И РЕСНИЦЫ</h3>
 <div class="gp-cols gp-cols--one">
 <div class="gp-col">
@@ -403,12 +571,9 @@
 </div>
 </div>
 </section>
-<div class="gp-block gp-block--anchor" id="gp-s10">
-<h2 class="gp-block__title">УСЛУГИ ДЛЯ МУЖЧИН</h2>
-<p class="gp-block__sub">маникюр · педикюр</p>
-</div>
-<section class="gp-section gp-section--flush">
-<div class="gp-cols">
+<section class="gp-section" id="gp-s13">
+<h3 class="gp-section__title">УСЛУГИ ДЛЯ МУЖЧИН</h3>
+<div class="gp-cols gp-cols--one">
 <div class="gp-col">
 <div class="gp-item">
 <div class="gp-item__head"><span class="gp-item__name">Маникюр мужской</span><span class="gp-item__price">2 000 ₽</span></div>
@@ -422,8 +587,6 @@
 <div class="gp-item__head"><span class="gp-item__name">Педикюр мужской</span><span class="gp-item__price">3 500 ₽</span></div>
 <p class="gp-item__desc">классический · комбинированный · аппаратный · дисковый · бразильский · 60 мин</p>
 </div>
-</div>
-<div class="gp-col">
 <div class="gp-item">
 <div class="gp-item__head"><span class="gp-item__name">Пилочный педикюр мужской</span><span class="gp-item__price">4 000 ₽</span></div>
 <p class="gp-item__desc">60 мин</p>
@@ -439,139 +602,11 @@
 </div>
 </div>
 </section>
-<div class="gp-block gp-block--anchor" id="gp-s11">
-<h2 class="gp-block__title">УСЛУГИ ДЛЯ ДЕТЕЙ</h2>
-<p class="gp-block__sub">до 12 лет</p>
 </div>
-<section class="gp-section gp-section--flush">
-<div class="gp-cols gp-cols--one">
-<div class="gp-col">
-<div class="gp-item">
-<div class="gp-item__head"><span class="gp-item__name">Маникюр детский</span><span class="gp-item__price">1 000 ₽</span></div>
-<p class="gp-item__desc">30 мин</p>
-</div>
-<div class="gp-item">
-<div class="gp-item__head"><span class="gp-item__name">Педикюр детский</span><span class="gp-item__price">1 800 ₽</span></div>
-<p class="gp-item__desc">40 мин</p>
-</div>
-</div>
-</div>
-</section>
-<div class="gp-block">
-<h2 class="gp-block__title">ПОДОЛОГИЯ</h2>
-<p class="gp-block__sub">уход за стопами · коррекция · терапия</p>
-</div>
-<section class="gp-section" id="gp-s12">
-<h3 class="gp-section__title">ЭСТЕТИЧЕСКАЯ ПОДОЛОГИЯ</h3>
-<div class="gp-cols gp-cols--one">
-<div class="gp-col">
-<div class="gp-item">
-<div class="gp-item__head"><span class="gp-item__name">Первичная консультация</span><span class="gp-item__price">1 000 ₽</span></div>
-<p class="gp-item__desc">30 мин</p>
-</div>
-</div>
-</div>
-</section>
-<section class="gp-section" id="gp-s13">
-<h3 class="gp-section__title">УХОД ЗА СТОПАМИ</h3>
-<div class="gp-cols">
-<div class="gp-col">
-<div class="gp-item">
-<div class="gp-item__head"><span class="gp-item__name">Обработка трещин, гиперкератоза</span><span class="gp-item__price">2 000 ₽</span></div>
-<p class="gp-item__desc">натоптышей · 30 мин</p>
-</div>
-<div class="gp-item">
-<div class="gp-item__head"><span class="gp-item__name">Обработка глубоких трещин</span><span class="gp-item__price">1 000 ₽</span></div>
-<p class="gp-item__desc">цена за 1 см · 30 мин</p>
-</div>
-<div class="gp-item">
-<div class="gp-item__head"><span class="gp-item__name">Наложение окклюзивной повязки</span><span class="gp-item__price">1 000 ₽</span></div>
-<p class="gp-item__desc">цена за 1 стопу · 10 мин</p>
-</div>
-</div>
-<div class="gp-col">
-<div class="gp-item">
-<div class="gp-item__head"><span class="gp-item__name">Удаление стержневой мозоли</span><span class="gp-item__price">1 000 ₽</span></div>
-<p class="gp-item__desc">15 мин</p>
-</div>
-<div class="gp-item">
-<div class="gp-item__head"><span class="gp-item__name">Подологический педикюр</span><span class="gp-item__price">4 500 ₽</span></div>
-<p class="gp-item__desc">мужской / женский · 120 мин</p>
-</div>
-</div>
-</div>
-</section>
+<div class="gp-stack">
 <section class="gp-section" id="gp-s14">
-<h3 class="gp-section__title">КОРРЕКЦИЯ ВРОСШЕГО НОГТЯ</h3>
-<div class="gp-cols">
-<div class="gp-col">
-<div class="gp-item">
-<div class="gp-item__head"><span class="gp-item__name">Аппаратная обработка проблемного ногтя</span><span class="gp-item__price">1 500 ₽</span></div>
-<p class="gp-item__desc">1 палец · 30 мин</p>
-</div>
-<div class="gp-item">
-<div class="gp-item__head"><span class="gp-item__name">Установка корректирующей системы</span><span class="gp-item__price">6 000 ₽</span></div>
-<p class="gp-item__desc">скоба Фрезера, 3ТО · 45 мин</p>
-</div>
-<div class="gp-item">
-<div class="gp-item__head"><span class="gp-item__name">Установка корректирующей системы</span><span class="gp-item__price">4 500 ₽</span></div>
-<p class="gp-item__desc">титановая нить · 30 мин</p>
-</div>
-<div class="gp-item">
-<div class="gp-item__head"><span class="gp-item__name">Установка корректирующей системы</span><span class="gp-item__price">4 000 ₽</span></div>
-<p class="gp-item__desc">лайт · 30 мин</p>
-</div>
-<div class="gp-item">
-<div class="gp-item__head"><span class="gp-item__name">Коррекция системы</span><span class="gp-item__price">2 000 ₽</span></div>
-<p class="gp-item__desc">30 мин</p>
-</div>
-</div>
-<div class="gp-col">
-<div class="gp-item">
-<div class="gp-item__head"><span class="gp-item__name">Удаление системы</span><span class="gp-item__price">2 000 ₽</span></div>
-<p class="gp-item__desc">15 мин</p>
-</div>
-<div class="gp-item">
-<div class="gp-item__head"><span class="gp-item__name">Тампонада</span><span class="gp-item__price">1 000 ₽</span></div>
-<p class="gp-item__desc">за ноготь · 20 мин</p>
-</div>
-<div class="gp-item">
-<div class="gp-item__head"><span class="gp-item__name">Тейпирование</span><span class="gp-item__price">800 ₽</span></div>
-<p class="gp-item__desc">15 мин</p>
-</div>
-<div class="gp-item">
-<div class="gp-item__head"><span class="gp-item__name">Удаление вросшего ногтя</span><span class="gp-item__price">500 ₽</span></div>
-<p class="gp-item__desc">5 мин</p>
-</div>
-</div>
-</div>
-</section>
-<section class="gp-section" id="gp-s15">
-<h3 class="gp-section__title">ТЕРАПИЯ НОГТЕВОЙ ПЛАСТИНЫ</h3>
-<div class="gp-cols gp-cols--one">
-<div class="gp-col">
-<div class="gp-item">
-<div class="gp-item__head"><span class="gp-item__name">Оздоровление ногтевой пластины</span><span class="gp-item__price">1 500 ₽</span></div>
-<p class="gp-item__desc">1 палец · 30 мин</p>
-</div>
-<div class="gp-item">
-<div class="gp-item__head"><span class="gp-item__name">Протезирование ногтя</span><span class="gp-item__price">2 000 ₽</span></div>
-<p class="gp-item__desc">большой палец · 30 мин</p>
-</div>
-<div class="gp-item">
-<div class="gp-item__head"><span class="gp-item__name">Протезирование ногтя</span><span class="gp-item__price">1 000 ₽</span></div>
-<p class="gp-item__desc">любой палец, кроме большого · 30 мин</p>
-</div>
-</div>
-</div>
-</section>
-<div class="gp-block">
-<h2 class="gp-block__title">УКЛАДКИ И МАКИЯЖ</h2>
-<p class="gp-block__sub">образ целиком: экспресс · локоны и волны · плетение · дневной и вечерний макияж</p>
-</div>
-<section class="gp-section" id="gp-s16">
 <h3 class="gp-section__title">УКЛАДКИ</h3>
-<div class="gp-cols">
+<div class="gp-cols gp-cols--one">
 <div class="gp-col">
 <div class="gp-item">
 <div class="gp-item__head"><span class="gp-item__name">Экспресс-укладка</span><span class="gp-item__price">2 000 ₽</span></div>
@@ -585,8 +620,6 @@
 <div class="gp-item__head"><span class="gp-item__name">Укладка с плетением или элементами причёски</span><span class="gp-item__price">3 000 ₽</span></div>
 <p class="gp-item__desc">элементы плетения · французские и объёмные косы · коса-водопад · коса в хвосте · полусобранные укладки · мальвинка с локонами · текстурный низкий хвост · высокий хвост с оформлением · декоративные элементы · комбинированные варианты · 45–60 мин</p>
 </div>
-</div>
-<div class="gp-col">
 <div class="gp-item">
 <div class="gp-item__head"><span class="gp-item__name">Детская экспресс-укладка</span><span class="gp-item__price">1 500 ₽</span></div>
 <p class="gp-item__desc">выпрямление волос · лёгкие локоны · мягкие волны · прикорневой объём по необходимости · 20–30 мин</p>
@@ -598,7 +631,7 @@
 </div>
 </div>
 </section>
-<section class="gp-section" id="gp-s17">
+<section class="gp-section" id="gp-s15">
 <h3 class="gp-section__title">МАКИЯЖ</h3>
 <div class="gp-cols gp-cols--one">
 <div class="gp-col">
@@ -613,7 +646,36 @@
 </div>
 </div>
 </section>
+<section class="gp-section" id="gp-s16">
+<h3 class="gp-section__title">УСЛУГИ ДЛЯ ДЕТЕЙ (ДО 12 ЛЕТ)</h3>
+<div class="gp-cols gp-cols--one">
+<div class="gp-col">
+<div class="gp-item">
+<div class="gp-item__head"><span class="gp-item__name">Маникюр детский</span><span class="gp-item__price">1 000 ₽</span></div>
+<p class="gp-item__desc">30 мин</p>
+</div>
+<div class="gp-item">
+<div class="gp-item__head"><span class="gp-item__name">Педикюр детский</span><span class="gp-item__price">1 800 ₽</span></div>
+<p class="gp-item__desc">40 мин</p>
+</div>
+</div>
+</div>
+</section>
+<div class="gp-deco gp-deco--z3" aria-hidden="true">
+<img class="gp-deco__flower gp-deco__flower--z3big" src="gp_flower_z3_big.png" alt="" width="1500" height="1500" aria-hidden="true" draggable="false">
+<img class="gp-deco__flower gp-deco__flower--z3small" src="gp_flower_z3_small.png" alt="" width="300" height="300" aria-hidden="true" draggable="false">
+<div class="gp-deco__lockup">
+<p class="gp-deco__slogan">Время,<br>отданное<br>себе</p>
+<span class="gp-deco__lockup-rule"></span>
+<p class="gp-deco__support">Отдых до кончиков пальцев</p>
+</div>
+</div>
+</div>
+</div>
 
-<p class="gp-footer">Цены как есть — без доплат и сюрпризов. Записывайтесь по кнопке вверху.</p>
+<div class="gp-outro">
+<p class="gp-outro__slogan">Время, отданное себе</p>
+<p class="gp-outro__support">Отдых до кончиков пальцев</p>
+</div>
 </div>
 </div>
