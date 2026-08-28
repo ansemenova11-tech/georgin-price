@@ -709,32 +709,31 @@
     var id = (a.getAttribute('href') || '').replace('#', '');
     var el = id ? document.getElementById(id) : null;
     if (!el) return;
-    ev.preventDefault();                       // нативный #hash в iframe капризничает
-    var top = targetTop(el);
-    try { history.pushState({ gp: id }, '', '#' + id); } catch (e) {}   // «назад» браузера
-
-    if (framed) {
-      try { window.parent.postMessage({ gpPrice: 'scroll', top: top }, '*'); } catch (e) {}
-    }
-    // если у страницы есть собственная прокрутка (iframe фиксированной высоты
-    // или обычное открытие файла) — доезжаем сами
-    if (document.documentElement.scrollHeight > window.innerHeight + 1) {
-      window.scrollTo(0, top);         // мгновенно: плавная прокрутка на 6000px тормозит
+    ev.preventDefault();
+    // переход пишем сменой хеша, а не pushState: запись в историю вкладки так
+    // создаётся надёжнее (pushState из фрейма часть браузеров помечает пропускаемым)
+    if ('#' + id !== window.location.hash) {
+      window.location.hash = id;               // отсюда сработает hashchange
+    } else {
+      goTo(targetTop(el));                     // тот же хеш — hashchange не придёт
     }
   }, false);
 
-  // «назад» браузера: возврат к предыдущей секции или к оглавлению.
-  // pushState из iframe попадает в общую сессионную историю, popstate прилетает сюда.
-  window.addEventListener('popstate', function () {
-    var id = (window.location.hash || '').replace('#', '');
-    var el = id ? document.getElementById(id) : null;
-    var top = el ? targetTop(el) : 0;          // без хеша — наверх, к оглавлению
+  // прокрутка тем же postMessage-механизмом, мгновенно
+  function goTo(top) {
     if (framed) {
       try { window.parent.postMessage({ gpPrice: 'scroll', top: top }, '*'); } catch (e) {}
     }
     if (document.documentElement.scrollHeight > window.innerHeight + 1) {
       window.scrollTo(0, top);
     }
+  }
+
+  // и переход по чипсу, и «назад»/«вперёд» браузера приходят одним событием
+  window.addEventListener('hashchange', function () {
+    var id = (window.location.hash || '').replace('#', '');
+    var el = id ? document.getElementById(id) : null;
+    goTo(el ? targetTop(el) : 0);              // без хеша — наверх, к оглавлению
   }, false);
 
   window.addEventListener('load', postHeight);
