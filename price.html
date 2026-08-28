@@ -711,6 +711,8 @@
     if (!el) return;
     ev.preventDefault();                       // нативный #hash в iframe капризничает
     var top = targetTop(el);
+    try { history.pushState({ gp: id }, '', '#' + id); } catch (e) {}   // «назад» браузера
+
     if (framed) {
       try { window.parent.postMessage({ gpPrice: 'scroll', top: top }, '*'); } catch (e) {}
     }
@@ -718,6 +720,20 @@
     // или обычное открытие файла) — доезжаем сами
     if (document.documentElement.scrollHeight > window.innerHeight + 1) {
       window.scrollTo(0, top);         // мгновенно: плавная прокрутка на 6000px тормозит
+    }
+  }, false);
+
+  // «назад» браузера: возврат к предыдущей секции или к оглавлению.
+  // pushState из iframe попадает в общую сессионную историю, popstate прилетает сюда.
+  window.addEventListener('popstate', function () {
+    var id = (window.location.hash || '').replace('#', '');
+    var el = id ? document.getElementById(id) : null;
+    var top = el ? targetTop(el) : 0;          // без хеша — наверх, к оглавлению
+    if (framed) {
+      try { window.parent.postMessage({ gpPrice: 'scroll', top: top }, '*'); } catch (e) {}
+    }
+    if (document.documentElement.scrollHeight > window.innerHeight + 1) {
+      window.scrollTo(0, top);
     }
   }, false);
 
